@@ -2,9 +2,13 @@ package cafedb.practice.entity.notice;
 
 
 import cafedb.practice.entity.BaseEntity;
+import cafedb.practice.entity.user.CafeUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -18,6 +22,18 @@ public class Posting extends BaseEntity {
     private String Title;
 
     //작성자 FK
+    @ManyToOne
+    @JoinColumn(name = "CAFE_USER_ID")
+    private CafeUser cafeUser;
+
+    public void setCafeUser(CafeUser cafeUser){
+        this.cafeUser = cafeUser;
+
+        // 무한 루프에 빠지지 않도록 체크
+        if(!cafeUser.getPosting().contains(this)){
+            cafeUser.getPosting().add(this);
+        }
+    }
 
     @Column(nullable = false)
     private int view;
@@ -25,7 +41,9 @@ public class Posting extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
     // 댓글 FK
-
+    @OneToMany
+    @JoinColumn(name = "COMMENT_ID")
+    private List<Comment> comment = new ArrayList<Comment>();
 
 
 }
