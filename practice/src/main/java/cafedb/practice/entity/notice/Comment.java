@@ -15,7 +15,7 @@ public class Comment extends BaseEntity {
     private Long id;
 
     //작성자 엔티티 만들기 FK
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CAFE_USER_ID")
     private CafeUser cafeUser;
 
@@ -29,6 +29,6 @@ public class Comment extends BaseEntity {
 
     @Column(nullable = false)
     private String content;
-
+    //TODO: 지연 로딩 방식 학습 및 처리, 테스트 코드 작성하기
 
 }

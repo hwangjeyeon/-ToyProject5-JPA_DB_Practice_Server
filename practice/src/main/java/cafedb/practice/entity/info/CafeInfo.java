@@ -30,12 +30,12 @@ public class CafeInfo{
     private LocalDateTime cafeCreateAT;
 
     // 카페 멤버 FK
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "CAFE_USER_ID")
     private List<CafeUser> cafeUser = new ArrayList<CafeUser>();
 
     // 카페 게시글 FK
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "POSTING_ID")
     private List<Posting> postings = new ArrayList<Posting>();
 

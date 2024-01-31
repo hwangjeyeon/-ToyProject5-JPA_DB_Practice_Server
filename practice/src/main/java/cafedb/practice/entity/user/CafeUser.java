@@ -32,7 +32,7 @@ public class CafeUser extends BaseEntity {
     private String memberRank;
 
     // 게시글 FK
-    @OneToMany(mappedBy = "cafeUser")
+    @OneToMany(mappedBy = "cafeUser", fetch = FetchType.LAZY)
     private List<Posting> posting = new ArrayList<>();
 
     //무한 루프 방지
@@ -44,7 +44,7 @@ public class CafeUser extends BaseEntity {
     }
 
     // 댓글 FK
-    @OneToMany(mappedBy = "cafeUser")
+    @OneToMany(mappedBy = "cafeUser", fetch = FetchType.LAZY)
     private List<Comment> comment = new ArrayList<Comment>();
     
     //무한 루프 방지

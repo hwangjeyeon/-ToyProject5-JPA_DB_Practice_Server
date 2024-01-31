@@ -22,7 +22,7 @@ public class Posting extends BaseEntity {
     private String Title;
 
     //작성자 FK
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CAFE_USER_ID")
     private CafeUser cafeUser;
 
@@ -41,7 +41,7 @@ public class Posting extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
     // 댓글 FK
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMMENT_ID")
     private List<Comment> comment = new ArrayList<Comment>();
 
