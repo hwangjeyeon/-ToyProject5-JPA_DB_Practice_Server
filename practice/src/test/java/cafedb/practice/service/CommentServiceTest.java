@@ -1,6 +1,7 @@
 package cafedb.practice.service;
 
 import cafedb.practice.entity.dto.comment.DeleteCommentDto;
+import cafedb.practice.entity.dto.comment.EditCommentDto;
 import cafedb.practice.entity.dto.comment.RegisterCommentDto;
 import cafedb.practice.entity.notice.Comment;
 import cafedb.practice.entity.notice.Posting;
@@ -93,6 +94,24 @@ class CommentServiceTest {
         List<Comment> commentList = commentRepository.findAll();
         //then
         assertThat(commentList).isEmpty();
+    }
+
+    @Test
+    @DisplayName("사용자가 수정한 댓글이 잘 삭제되는가 테스트")
+    void editCommentTest(){
+        //given
+        EditCommentDto editCommentDto = new EditCommentDto();
+        editCommentDto.setNickname("kingpele");
+        editCommentDto.setPostingCreateAt(postingRepository.findById(1L).get().getCreateAt());
+        editCommentDto.setCommentCreateAt(commentRepository.findById(1L).get().getCreateAt());
+        editCommentDto.setContent("변경된 내용입니다. 확인해주세요!");
+
+        //when
+        commentService.editComment(editCommentDto);
+        List<Comment> commentList = commentRepository.findAll();
+
+        //then
+        assertThat(commentList.get(0).getContent()).isEqualTo("변경된 내용입니다. 확인해주세요!");
     }
 
 
