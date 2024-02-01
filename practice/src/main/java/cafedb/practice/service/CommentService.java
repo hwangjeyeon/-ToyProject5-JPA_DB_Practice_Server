@@ -60,8 +60,10 @@ public class CommentService {
     @Transactional
     public void deleteComment(DeleteCommentDto deleteCommentDto){
         CafeUser cafeUser = cafeUserRepository.findByNickName(deleteCommentDto.getNickname()).get(0);
-        Posting userPostings = postingRepository.findByCafeUserAndCreateAt(cafeUser, deleteCommentDto.getPostingCreateAt()).get(0);
-        Comment comment = commentRepository.findByCafeUserAndPostingAndCreateAt(cafeUser, userPostings, deleteCommentDto.getCommentCreateAt()).get(0);
+        Posting userPostings = postingRepository.findByCafeUserAndCreateAt(cafeUser,
+                deleteCommentDto.getPostingCreateAt()).get(0);
+        Comment comment = commentRepository.findByCafeUserAndPostingAndCreateAt(cafeUser,
+                userPostings, deleteCommentDto.getCommentCreateAt()).get(0);
 
         commentRepository.delete(comment);
     }
@@ -70,7 +72,11 @@ public class CommentService {
     // 변경감지 활용하기
     @Transactional
     public void editComment(EditCommentDto editCommentDto){
-
+        CafeUser cafeUser = cafeUserRepository.findByNickName(editCommentDto.getNickname()).get(0);
+        Posting userPostings = postingRepository.findByCafeUserAndCreateAt(cafeUser, editCommentDto.getPostingCreateAt()).get(0);
+        Comment comment = commentRepository.findByCafeUserAndPostingAndCreateAt(cafeUser,
+                userPostings, editCommentDto.getCommentCreateAt()).get(0);
+        comment.setContent(editCommentDto.getContent());
     }
 
 
