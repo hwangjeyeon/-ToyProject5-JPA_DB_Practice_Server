@@ -15,7 +15,7 @@ public class Comment extends BaseEntity {
     private Long id;
 
     //작성자 엔티티 만들기 FK
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CAFE_USER_ID")
     private CafeUser cafeUser;
 
@@ -27,8 +27,22 @@ public class Comment extends BaseEntity {
         }
     }
 
+
+    //게시글 FK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POSTING_ID")
+    private Posting posting;
+
+    public void setPosting(Posting posting){
+        this.posting = posting;
+        //무한 루프 방지
+        if(!posting.getComment().contains(this)){
+            posting.getComment().add(this);
+        }
+    }
+
+
     @Column(nullable = false)
     private String content;
-    //TODO: 지연 로딩 방식 학습 및 처리, 테스트 코드 작성하기
 
 }

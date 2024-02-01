@@ -22,7 +22,7 @@ public class Posting extends BaseEntity {
     private String Title;
 
     //작성자 FK
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CAFE_USER_ID")
     private CafeUser cafeUser;
 
@@ -40,10 +40,17 @@ public class Posting extends BaseEntity {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
     // 댓글 FK
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMMENT_ID")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posting")
     private List<Comment> comment = new ArrayList<Comment>();
 
+    public void addComment(Comment comment){
+        this.comment.add(comment);
+        //무한 루프 방지
+        if(comment.getPosting() != this){
+            comment.setPosting(this);
+        }
+    }
 
 }
